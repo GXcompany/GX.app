@@ -1,0 +1,247 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>GX • App Secreto de Crescimento Mental</title>
+
+<!-- Tailwind CDN para utilidades rápidas -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- Fonte Orbitron (gamer) -->
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --gx-roxo: #5e00ff;
+    --gx-amarelo: #ffcc00;
+    --gx-preto: #0d0d23;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+
+  body{
+    font-family:'Orbitron',sans-serif;
+    background:var(--gx-preto);
+    color:#eee;
+    height:100vh;
+    overflow:hidden;
+    display:flex;
+  }
+
+  /* ===== LAYOUT PRINCIPAL ===== */
+  #sidebar{
+    width:75px;
+    background:#1a0038;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding:20px 0;
+    box-shadow:4px 0 15px #000b;
+  }
+  #main{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    overflow:hidden;
+  }
+  header{
+    height:80px;
+    flex-shrink:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+    background:#1f012f;
+    box-shadow:0 2px 10px #000a;
+  }
+
+  /* ===== LOGO NEON ===== */
+  .logo-container{
+    position:relative;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .gx-text{
+    font-size:2.8rem;
+    color:#fff;
+    letter-spacing:-0.1em;
+    text-shadow:2px 2px 5px #000,-2px -2px 5px #000,0 0 15px var(--gx-roxo),0 0 35px var(--gx-roxo),0 0 65px var(--gx-roxo);
+    animation:neon-flicker 1.5s ease-in-out infinite alternate;
+    z-index:2;
+  }
+  /* Raios minimal para header */
+  .ray{
+    position:absolute;
+    width:60px;height:4px;
+    background:var(--gx-roxo);
+    opacity:0;
+    filter:blur(5px);
+    clip-path:polygon(0 0,80% 10%,100% 50%,80% 90%,0 100%,15% 50%);
+    animation:thunder 3s ease-out infinite;
+  }
+  .ray:nth-child(2){top:-5px;left:-10px;transform:rotate(-55deg);animation-delay:.1s}
+  .ray:nth-child(3){bottom:-5px;right:-10px;transform:rotate(125deg);animation-delay:.3s}
+
+  @keyframes neon-flicker{0%,100%{opacity:1}50%{opacity:.85}}
+  @keyframes thunder{
+    0%{opacity:0;transform:scale(.6) rotate(var(--r))}
+    5%{opacity:1;transform:scale(1.2) rotate(var(--r))}
+    20%{opacity:0;transform:scale(.8) rotate(var(--r))}
+    100%{opacity:0}
+  }
+
+  /* ===== FUNDO ANIMADO COM LOGO ===== */
+  #bg{
+    position:fixed;inset:0;z-index:-1;
+    background:
+      radial-gradient(circle at center,transparent 0 20%,var(--gx-roxo)20% 22%,transparent 22%) 0 0/300px 300px,
+      radial-gradient(circle at center,transparent 0 20%,var(--gx-roxo)20% 22%,transparent 22%) 150px 150px/300px 300px;
+    opacity:.05;
+    animation:bgmove 40s linear infinite;
+  }
+  @keyframes bgmove{0%{background-position:0 0,150px 150px}100%{background-position:-300px -300px,-150px -150px}}
+
+  /* ===== SIDEBAR ICONS ===== */
+  .nav-btn{
+    width:48px;height:48px;
+    margin:14px 0;
+    border-radius:12px;
+    display:flex;
+    align-items:center;justify-content:center;
+    background:#330066;
+    color:var(--gx-amarelo);
+    transition:.3s;
+    cursor:pointer;
+  }
+  .nav-btn:hover,.nav-btn.active{
+    background:var(--gx-amarelo);color:#220044;transform:scale(1.15);
+    box-shadow:0 0 15px var(--gx-amarelo);
+  }
+  svg{width:28px;height:28px;fill:currentColor}
+
+  /* ===== ÁREA DE CONTEÚDO ===== */
+  #view{flex:1;overflow-y:auto;padding:30px;scrollbar-width:none}
+  #view::-webkit-scrollbar{display:none}
+
+  #page{
+    max-width:800px;margin:auto;
+    background:#220044cc;
+    padding:25px;border-radius:15px;
+    box-shadow:0 0 25px #000a;
+  }
+  #page h2{color:var(--gx-amarelo);margin-bottom:12px}
+  #text{white-space:pre-wrap;color:#ddd;outline:none;min-height:240px}
+
+  .btn-group{display:flex;gap:12px;justify-content:flex-end;margin-top:18px}
+  .gx-btn{
+    background:var(--gx-roxo);color:#fff;
+    border:none;padding:10px 16px;border-radius:8px;font-weight:700;
+    transition:.3s;cursor:pointer
+  }
+  .gx-btn:hover{background:var(--gx-amarelo);color:#220044}
+
+</style>
+</head>
+<body>
+<div id="bg"></div>
+
+<!-- ============ SIDEBAR ============ -->
+<aside id="sidebar">
+  <div class="nav-btn active" data-page="mentalidade" title="Mentalidade">
+    <svg viewBox="0 0 64 64"><path d="M32 12a12 12 0 1012 12A12 12 0 0032 12zm0 56A30 30 0 1162 38 30 30 0 0132 68z"/></svg>
+  </div>
+  <div class="nav-btn" data-page="foco" title="Foco">
+    <svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="16"/><path d="M32 0v12M32 52v12M0 32h12M52 32h12"/></svg>
+  </div>
+  <div class="nav-btn" data-page="disciplina" title="Disciplina">
+    <svg viewBox="0 0 64 64"><rect x="16" y="16" width="32" height="32" rx="6"/></svg>
+  </div>
+  <div class="nav-btn" data-page="produtividade" title="Produtividade">
+    <svg viewBox="0 0 64 64"><path d="M12 44h40v8H12zM12 20h40v8H12zM12 32h40v8H12z"/></svg>
+  </div>
+  <div class="nav-btn" data-page="meditacao" title="Meditação">
+    <svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="30"/></svg>
+  </div>
+</aside>
+
+<!-- ============ MAIN ============ -->
+<main id="main">
+  <header>
+    <div class="logo-container">
+      <div class="gx-text">GX</div>
+      <div class="ray" style="--r:-55deg"></div>
+      <div class="ray" style="--r:125deg"></div>
+    </div>
+  </header>
+
+  <div id="view">
+    <section id="page">
+      <h2 id="title"></h2>
+      <div id="text" contenteditable="false"></div>
+      <div class="btn-group">
+        <button id="btn-edit" class="gx-btn">Editar</button>
+        <button id="btn-save" class="gx-btn" style="display:none;">Salvar</button>
+      </div>
+    </section>
+  </div>
+</main>
+
+<script>
+/* ===== DADOS DAS PÁGINAS ===== */
+const pages = {
+  mentalidade:"Mentalidade forte é a base para o sucesso.
+Cultive pensamentos positivos, visualize seus objetivos e mantenha disciplina.",
+  foco:"Foco é a habilidade de direcionar sua energia ao que importa.
+Faça pausas, elimine distrações e priorize metas.",
+  disciplina:"Disciplina é o motor do progresso.
+Crie rotinas, defina metas e persista mesmo quando o resultado demora.",
+  produtividade:"Produtividade é fazer mais com menos.
+Use Pomodoro, elimine tarefas inúteis e organize seu ambiente.",
+  meditacao:"Meditação acalma a mente.
+Pratique diariamente, mesmo que poucos minutos, para clareza e bem‑estar."
+};
+
+/* ===== ELEMENTOS ===== */
+const navBtns = document.querySelectorAll('.nav-btn');
+const titleEl = document.getElementById('title');
+const textEl  = document.getElementById('text');
+const btnEdit = document.getElementById('btn-edit');
+const btnSave = document.getElementById('btn-save');
+
+/* ===== FUNÇÕES ===== */
+function loadPage(key){
+  navBtns.forEach(b=>b.classList.toggle('active',b.dataset.page===key));
+  titleEl.textContent = key.charAt(0).toUpperCase()+key.slice(1);
+  const stored = localStorage.getItem('gx_'+key);
+  textEl.textContent = stored || pages[key];
+  textEl.contentEditable = 'false';
+  btnEdit.style.display='inline-block';
+  btnSave.style.display='none';
+}
+
+btnEdit.onclick=()=>{
+  textEl.contentEditable='true';
+  textEl.focus();
+  btnEdit.style.display='none';
+  btnSave.style.display='inline-block';
+};
+btnSave.onclick=()=>{
+  const key = [...navBtns].find(b=>b.classList.contains('active')).dataset.page;
+  localStorage.setItem('gx_'+key, textEl.textContent.trim());
+  textEl.contentEditable='false';
+  btnSave.style.display='none';
+  btnEdit.style.display='inline-block';
+  alert('Conteúdo salvo localmente!');
+};
+
+navBtns.forEach(btn=>{
+  btn.onclick=()=>loadPage(btn.dataset.page);
+});
+
+/* ===== INÍCIO ===== */
+loadPage('mentalidade');
+</script>
+</body>
+</html>
